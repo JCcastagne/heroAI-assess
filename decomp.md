@@ -8,14 +8,15 @@ Please keep your answers to a reasonable length. You may answer directly in this
 ### Q1. ReactJS Hooks
 Please take a look at this ReactJS code and correct the mistakes that you find. You may edit the code in this markdown file directly.
 ```javascript
-import React, {useState} from 'react';
+import {React, useState} from 'react';
 
 function Counter(props) {
-  const [count] = useState(0);
+  const [count, setCounter] = useState(0);
   
   return (
     <p>Current count: {count}</p>
-    <button onClick={() => (count = count + 1)}>Increment count</button>
+    <button onClick={() => (setCounter(count => count++))}>Increment count</button>
+    //Important to use an array function inside the setState function since it relies on a previous value inside the state
   );
 }
 ```
@@ -27,6 +28,7 @@ What will happen when you click each of these buttons and why?
 ```javascript
 class App extends React.Component {
   
+  //Bind in Constructor
   constructor() {
     super(); 
     this.name = 'MyComponent';
@@ -35,18 +37,30 @@ class App extends React.Component {
   }
   
   handleClick1() {
+    //Did not declare name
     alert(this.name);
   }
   
   handleClick3 = () => alert(this.name);
+  //Did not declare name
   
   render() {
     return (
       <div>
+
+        // Wrong: handleClick is called instead of passed as a reference!
         <button onClick={this.handleClick1()}>click 1</button>
+
+        //Did not declare name
         <button onClick={this.handleClick1}>click 2</button>
+
+        //Did not declare name
         <button onClick={this.handleClick2}>click 3</button>
+
+        //Did not declare name
         <button onClick={this.handleClick3}>click 4</button>
+
+        
       </div>
     );
   }
@@ -76,13 +90,13 @@ test('memoized selectors', () => {
     Object.values(st.data).map(d => d.y)
   );
   
-  expect(fn1(stateA) === fn1(stateB)).toBeTruthy();
-  expect(fn1(stateA) === fn1(stateC)).toBeTruthy();
-  expect(fn1(stateB) !== fn1(stateC)).toBeTruthy();
+  expect(fn1(stateA) === fn1(stateB)).toBeTruthy(); -> True
+  expect(fn1(stateA) === fn1(stateC)).toBeTruthy(); -> False  x:2, x:3 =/= x:1, x:3
+  expect(fn1(stateB) !== fn1(stateC)).toBeTruthy(); -> True   x:2, x:3 =/= x:1, x:3
   
-  expect(fn2(stateA) === fn2(stateA)).toBeTruthy();
-  expect(fn2(stateA) === fn2(stateB)).toBeTruthy();
-  expect(fn2(stateA) !== fn2(stateC)).toBeTruthy();
-  expect(fn2(stateB) !== fn2(stateC)).toBeTruthy();
+  expect(fn2(stateA) === fn2(stateA)).toBeTruthy(); -> True   y:[1,2], y:[3,4] === y:[1,2], y:[3,4]
+  expect(fn2(stateA) === fn2(stateB)).toBeTruthy(); -> True   y:[1,2], y:[3,4] === y:[1,2], y:[3,4]
+  expect(fn2(stateA) !== fn2(stateC)).toBeTruthy(); -> True   y:[1,2], y:[3,4] =/= y:[3,4], y:[5,6]
+  expect(fn2(stateB) !== fn2(stateC)).toBeTruthy(); -> True   y:[1,2], y:[3,4] =/= y:[3,4], y:[5,6]
 });
 ```
