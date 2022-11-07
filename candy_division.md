@@ -6,7 +6,7 @@ Benny has just found out that he has `n` candies in his pocket. He is always hap
 Given `n` candies, how many people can Benny invite to eat candies, so that everybody gets the same number of candies and all candies will be eaten? If multiple answers are possible, please provide all possibilities.
 
 ### Input
-The input contains one integer <code>2 <= n <= 10<sup>12</sup></code>, denoting the number of candies in Benny’s pocket.
+The input contains one integer `2 <= n <= 10^12`, denoting the number of candies in Benny’s pocket.
 
 ### Output
 Output an array with all possible number of friends Benny can invite. Output them in ascending order.
